@@ -1,0 +1,19 @@
+services:
+  api:
+    build:
+      context: ./api
+      target: dev
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: ./api/.env
+        required: false
+    environment:
+      # File-change events don't cross the Windows -> Docker boundary; poll instead.
+      WATCHFILES_FORCE_POLLING: "true"
+    volumes:
+      - ./api/pyproject.toml:/app/pyproject.toml:ro
+      - ./api/src:/app/src
+      - ./api/tests:/app/tests
+      - ./api/models:/app/models
+      - ./api/ml:/app/ml

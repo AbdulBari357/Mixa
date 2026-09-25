@@ -1,0 +1,19 @@
+# Secrets
+.env
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# ML data (document downloads in api/ml/README.md instead)
+api/ml/data/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
