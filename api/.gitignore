@@ -1,0 +1,7 @@
+# Also here (not just the repo root) so a deploy repo made from api/ alone,
+# e.g. a Hugging Face Space, can never publish the keys or cached messages.
+.env
+.cache/
+ml/data/
+.venv/
+__pycache__/

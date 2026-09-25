@@ -19,6 +19,7 @@ CMD ["uvicorn", "mixa.server:app", "--host", "0.0.0.0", "--port", "8000", "--rel
 # Deployment (default target). Hugging Face Spaces expects port 7860.
 FROM base AS prod
 RUN uv sync --frozen --no-dev
-ENV PORT=7860
+# Hugging Face Spaces run the container as uid 1000, which can't write to /app.
+ENV PORT=7860 CACHE_PATH=/tmp/mixa/meaning.sqlite
 EXPOSE 7860
 CMD ["sh", "-c", "uvicorn mixa.server:app --host 0.0.0.0 --port ${PORT}"]

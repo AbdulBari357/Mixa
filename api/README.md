@@ -5,7 +5,7 @@ FastAPI service running the analysis pipeline. See the root README for setup and
 
 ```
 src/mixa/
-  server.py            FastAPI app: GET /health, POST /analyze
+  server.py            FastAPI app: GET /health, GET /providers, POST /analyze
   schemas.py           API contract (mirrored in web/src/lib/types.ts)
   pipeline/
     tokenize.py        1. tokens with offsets; keeps 7abibi / ba3d / भाई whole
@@ -13,7 +13,8 @@ src/mixa/
     features.py           CRF features shared by training and serving
     soundkey.py        3. sound keys: bahut = bohot = bht
     scripts.py         4. Devanagari / Urdu / Arabic views
-    meaning.py         5. Gemini, given the text plus our tags
+    meaning.py         5. meaning + reply via an LLM fallback chain, reply checked by our LID
+    llm.py                Gemini and Groq providers
 models/                trained model files (lid.joblib)
 ml/                    training and evaluation scripts
 tests/

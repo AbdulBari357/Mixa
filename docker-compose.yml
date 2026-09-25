@@ -17,3 +17,4 @@ services:
       - ./api/tests:/app/tests
       - ./api/models:/app/models
       - ./api/ml:/app/ml
+      - ./api/.cache:/app/.cache  # LLM answer cache survives container restarts

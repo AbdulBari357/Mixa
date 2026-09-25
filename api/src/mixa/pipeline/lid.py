@@ -6,6 +6,7 @@ simple rules: script detection, Arabizi digits and small seed word lists.
 """
 
 import logging
+import re
 from functools import lru_cache
 
 import joblib
@@ -20,25 +21,33 @@ log = logging.getLogger(__name__)
 _URDU_ONLY = set("ٹڈڑںےۓہھ")
 
 # Seed lists for the rules baseline only. The trained model replaces these.
+# Words that are also common English words (the, he, me, main, mat, par, late, ya...) are
+# deliberately left out: without context they turned plain English into "Hindi".
 _HI_UR_SEED = set(
     """
-    hai hain he ho hoon hun tha thi the kya kyu kyun kaise kahan kab kal aaj abhi nahi nhi
-    mat na haan ha bhai yaar yar bahut bohot bahot thoda zyada jyada accha acha theek thik
-    mera meri mere tera teri tere apna apni hum tum aap main mai mujhe tujhe usko isko
-    aur ya lekin par pe ko ka ki ke se mein me tak wala wali wale kuch sab koi jab tab
+    hai hain ho hoon tha thi kya kyu kyun kaise kahan kab kal aaj abhi nahi nhi nahin
+    na haan bhai yaar yar bahut bohot bahot thoda zyada jyada accha acha achha theek thik
+    mera meri mere tera teri tere apna apni hum tum aap mai mujhe tujhe usko isko
+    aur lekin pe ko ka ki ke se mein tak wala wali wale kuch sab koi
     raha rahi rahe gaya gayi gaye karna karo kar karke jana jao ja aana aao aa dekho bolo
-    samajh samaj pata chal chalo matlab bas phir fir jaldi late hoga hogi
+    samajh samaj pata chal chalo matlab bas phir jaldi hoga hogi arre bilkul zaroor sahi
+    batao bata dost ghar kaam kitna kaun kidhar idhar udhar yahan wahan kyunki
     """.split()
 )
 _AR_SEED = set(
     """
     yalla wallah walla habibi habibti inshallah insha'allah mashallah alhamdulillah khalas
-    shukran ana inta enta inti enti huwa hiya shu shoo shlonak shlonik zain zein zen wayed
-    wayid mafi fi akhi ukhti ya salam salaam marhaba ahlan tamam aywa la2 laa ma3 3ala
-    ba3d ba3den 7abibi 3ashan 3shan ta3al yallah khalli
+    shukran ana inta enta inti enti huwa hiya shu shlonak shlonik zain zein wayed
+    wayid mafi akhi ukhti salam salaam marhaba ahlan tamam aywa la2 laa ma3 3ala
+    ba3d ba3den 7abibi 3ashan 3shan ta3al yallah khalli maalesh mashi shwaya shwayya
+    wainak wain kteer kthir
     """.split()
 )
 _ARABIZI_DIGITS = set("235679")
+# Numbers with units or ordinals (5pm, 2nd, 10k, 30min) are not Arabizi.
+_NUMBER_WITH_UNIT = re.compile(
+    r"\d+(am|pm|st|nd|rd|th|k|m|h|hr|hrs|min|mins|s|sec|kg|km|gb|mb|x|d)"
+)
 
 
 @lru_cache
@@ -66,6 +75,8 @@ def _rule_label(tok: RawToken) -> tuple[str, float]:
     low = word.lower()
     if low in _AR_SEED:
         return "ar", 0.8
+    if _NUMBER_WITH_UNIT.fullmatch(low):
+        return "other", 0.9
     if any(c in _ARABIZI_DIGITS for c in low) and any(c.isalpha() for c in low):
         return "ar", 0.75
     if low in _HI_UR_SEED:

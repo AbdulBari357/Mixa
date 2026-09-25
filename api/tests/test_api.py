@@ -27,5 +27,17 @@ def test_analyze_returns_the_contract_shape():
     }
 
 
-def test_analyze_rejects_empty_text():
+def test_analyze_rejects_empty_and_overlong_text():
     assert client.post("/analyze", json={"text": ""}).status_code == 422
+    assert client.post("/analyze", json={"text": "a" * 501}).status_code == 422
+
+
+def test_providers_always_offers_auto():
+    body = client.get("/providers").json()
+    assert body["default"] == "auto"
+    assert body["options"][0]["id"] == "auto"
+
+
+def test_analyze_rejects_providers_that_are_not_configured():
+    res = client.post("/analyze", json={"text": "yaar", "provider": "gpt-9-ultra"})
+    assert res.status_code == 422

@@ -27,14 +27,17 @@ A five-stage pipeline (details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)):
 2. **Word-level language ID**: a CRF we train on code-switched data (LinCE + Arabizi).
 3. **Sound keys**: group spellings by ear (`bahut = bohot = bht`).
 4. **Script views**: show romanized words in Devanagari / Urdu / Arabic script.
-5. **Meaning**: Gemini reads the text *plus our tags* and answers in the writer's own register.
+5. **Meaning**: an LLM (Gemini, with Groq as fallback) reads the text *plus our tags*, explains
+   it in English and replies in the writer's own mix. **Our own language ID then checks the
+   reply** and tries the next model if it slipped into plain English.
+   [Model comparison →](api/ml/results/meaning_eval.md)
 
 ## Run it locally
 
 **API** (Python, runs in Docker):
 
 ```bash
-cp api/.env.example api/.env        # then add your GEMINI_API_KEY (optional)
+cp api/.env.example api/.env        # then add GEMINI_API_KEY and/or GROQ_API_KEY (both free, optional)
 docker compose up --build           # http://localhost:8000/docs
 docker compose run --rm api pytest  # tests
 ```
@@ -49,6 +52,9 @@ npm run dev                         # http://localhost:3000
 ```
 
 Set `NEXT_PUBLIC_USE_MOCK=1` in `web/.env.local` to work on the UI without the API.
+
+> **Privacy:** messages you analyze are sent to the Google Gemini / Groq free tiers, which
+> may use them to improve their services. Don't paste private chats.
 
 ## Repository layout
 

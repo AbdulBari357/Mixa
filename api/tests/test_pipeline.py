@@ -47,6 +47,15 @@ def test_code_mixing_index():
     assert stats.languages == ["hi-ur", "en"]
 
 
+@pytest.mark.parametrize(
+    "english",
+    ["Can you send me the report before 5pm?", "Got it, will follow the guidelines!"],
+)
+def test_plain_english_is_not_tagged_as_hindi(english):
+    langs = {t.lang for t in analyze(english, with_meaning=False).tokens}
+    assert langs <= {"en", "other"}
+
+
 def test_analyze_labels_a_mixed_sentence_without_meaning():
     res = analyze("bhai kal meeting hai, ana coming ba3d", with_meaning=False)
     langs = {t.text: t.lang for t in res.tokens}

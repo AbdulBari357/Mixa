@@ -21,14 +21,33 @@ export interface Stats {
   cmi: number;
 }
 
-export interface Meaning {
+export interface MeaningResult {
+  /** What the message means, in plain English. */
   en: string;
-  same_register: string;
+  /** A short reply written the way the sender writes (same language mix). */
+  reply: string;
+  /** Model that answered, e.g. "gemini-3.1-flash-lite". */
+  provider: string;
+  /** Our own language ID confirmed the reply keeps the sender's language mix. */
+  register_kept: boolean;
+}
+
+export interface ProviderOption {
+  /** "auto" (fallback chain) or a model id, e.g. "gemini-3.5-flash-lite". */
+  id: string;
+  label: string;
+  /** e.g. "Google Gemini", "Groq"; empty for auto. */
+  vendor: string;
+}
+
+export interface ProvidersResponse {
+  default: string;
+  options: ProviderOption[];
 }
 
 export interface AnalyzeResponse {
   tokens: Token[];
   stats: Stats;
-  meaning: Meaning | null;
+  meaning: MeaningResult | null;
   lid_source: "model" | "rules";
 }

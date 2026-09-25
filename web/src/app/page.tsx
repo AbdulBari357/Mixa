@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { analyze } from "@/lib/api";
-import type { AnalyzeResponse, Lang } from "@/lib/types";
+import { useEffect, useState } from "react";
+import { analyze, getProviders } from "@/lib/api";
+import type { AnalyzeResponse, Lang, ProviderOption } from "@/lib/types";
 
 const LANG_STYLE: Record<Lang, { label: string; className: string }> = {
   en: { label: "English", className: "bg-sky-100 text-sky-900 dark:bg-sky-900/40 dark:text-sky-100" },
@@ -11,6 +11,10 @@ const LANG_STYLE: Record<Lang, { label: string; className: string }> = {
   ne: { label: "Name", className: "bg-violet-100 text-violet-900 dark:bg-violet-900/40 dark:text-violet-100" },
   other: { label: "Other", className: "text-zinc-500" },
 };
+
+const AUTO_OPTION: ProviderOption = { id: "auto", label: "Auto (best available, with fallback)", vendor: "" };
+const PROVIDER_KEY = "mixa.provider";
+const MAX_CHARS = 500;
 
 const EXAMPLES = [
   "bhai kal meeting hai, ana coming ba3d shwaya, traffic bohot hai",
@@ -23,13 +27,38 @@ export default function Home() {
   const [result, setResult] = useState<AnalyzeResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [providers, setProviders] = useState<ProviderOption[]>([AUTO_OPTION]);
+  const [provider, setProvider] = useState(AUTO_OPTION.id);
+
+  // Load the models the API has keys for, then restore this browser's last choice if still offered.
+  useEffect(() => {
+    getProviders()
+      .then(({ options, default: fallback }) => {
+        setProviders(options);
+        let saved: string | null = null;
+        try {
+          saved = localStorage.getItem(PROVIDER_KEY);
+        } catch {}
+        setProvider(saved && options.some((o) => o.id === saved) ? saved : fallback);
+      })
+      .catch(() => {}); // API down: keep "Auto"; Analyze will show the error
+  }, []);
+
+  function chooseProvider(id: string) {
+    setProvider(id);
+    try {
+      localStorage.setItem(PROVIDER_KEY, id);
+    } catch {}
+  }
+
+  const providerLabel = providers.find((o) => o.id === provider)?.label ?? provider;
 
   async function run() {
     if (!text.trim()) return;
     setLoading(true);
     setError(null);
     try {
-      setResult(await analyze(text));
+      setResult(await analyze(text, provider));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
@@ -52,9 +81,24 @@ export default function Home() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={3}
+          maxLength={MAX_CHARS}
           className="w-full rounded-lg border border-zinc-300 bg-transparent p-3 dark:border-zinc-700"
           aria-label="Message to analyze"
         />
+        <label className="flex flex-wrap items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+          Model
+          <select
+            value={provider}
+            onChange={(e) => chooseProvider(e.target.value)}
+            className="rounded-lg border border-zinc-300 bg-transparent px-2 py-1 dark:border-zinc-700 dark:bg-zinc-900"
+          >
+            {providers.map((o) => (
+              <option key={o.id} value={o.id}>
+                {o.vendor ? `${o.label} · ${o.vendor}` : o.label}
+              </option>
+            ))}
+          </select>
+        </label>
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={run}
@@ -74,6 +118,10 @@ export default function Home() {
           ))}
         </div>
         {error && <p className="text-sm text-red-600">{error}. Is the API running?</p>}
+        <p className="text-xs text-zinc-400">
+          Messages are sent to Google Gemini / Groq free tiers, which may review them. Don&apos;t paste
+          private chats.
+        </p>
       </section>
 
       {result && (
@@ -111,12 +159,28 @@ export default function Home() {
           </dl>
 
           {result.meaning ? (
-            <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
-              <p>{result.meaning.en}</p>
-              <p className="mt-2 text-sm text-zinc-500">In your words: {result.meaning.same_register}</p>
+            <div className="flex flex-col gap-3 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+              <div>
+                <p className="text-sm text-zinc-500">What it means</p>
+                <p>{result.meaning.en}</p>
+              </div>
+              <div>
+                <p className="text-sm text-zinc-500">A reply in your own mix</p>
+                <p className="font-medium">{result.meaning.reply}</p>
+              </div>
+              <p className="text-xs text-zinc-400">
+                {result.meaning.provider} ·{" "}
+                {result.meaning.register_kept
+                  ? "our language ID confirmed the reply keeps your language mix"
+                  : "the model fell back to English"}
+              </p>
             </div>
           ) : (
-            <p className="text-sm text-zinc-500">Meaning unavailable (no Gemini key configured).</p>
+            <p className="text-sm text-zinc-500">
+              {provider === AUTO_OPTION.id
+                ? "Meaning unavailable right now (no model configured, or all are busy)."
+                : `No answer from ${providerLabel} right now (busy or rate-limited). Try Auto.`}
+            </p>
           )}
 
           <p className="text-xs text-zinc-400">

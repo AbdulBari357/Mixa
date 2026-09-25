@@ -12,6 +12,9 @@ __pycache__/
 # ML data (document downloads in api/ml/README.md instead)
 api/ml/data/
 
+# LLM answer cache (may hold demo messages)
+api/.cache/
+
 # Editors / OS
 .vscode/
 .idea/

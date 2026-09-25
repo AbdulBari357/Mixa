@@ -1,4 +1,13 @@
-import type { AnalyzeResponse } from "./types";
+import type { AnalyzeResponse, ProvidersResponse } from "./types";
+
+export const MOCK_PROVIDERS: ProvidersResponse = {
+  default: "auto",
+  options: [
+    { id: "auto", label: "Auto (best available, with fallback)", vendor: "" },
+    { id: "gemini-3.5-flash-lite", label: "Gemini 3.5 Flash-Lite", vendor: "Google Gemini" },
+    { id: "openai/gpt-oss-120b", label: "GPT-OSS 120B", vendor: "Groq" },
+  ],
+};
 
 // Hand-written example matching the API contract, for UI work without the backend.
 export const MOCK_ANALYSIS: AnalyzeResponse = {
@@ -19,8 +28,10 @@ export const MOCK_ANALYSIS: AnalyzeResponse = {
   ],
   stats: { languages: ["hi-ur", "en", "ar"], switch_points: 7, cmi: 54.5 },
   meaning: {
-    en: "Bro, is the meeting tomorrow? I'm coming in a little while, there's a lot of traffic.",
-    same_register: "Bhai meeting kal hai na? Ana coming ba3d shwaya, traffic bohot zyada hai.",
+    en: "Bro, the meeting is tomorrow. I'm coming a bit later, there's a lot of traffic.",
+    reply: "no tension bhai, meeting ba3d shwaya start karte hain, drive safe",
+    provider: "mock",
+    register_kept: true,
   },
   lid_source: "rules",
 };

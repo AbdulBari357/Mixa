@@ -10,7 +10,20 @@ Lang = Literal["en", "hi-ur", "ar", "ne", "other"]
 
 
 class AnalyzeRequest(BaseModel):
-    text: str = Field(min_length=1, max_length=2000)
+    text: str = Field(min_length=1, max_length=500)
+    # "auto" = fallback chain, or one model id from GET /providers (no fallback).
+    provider: str = Field(default="auto", max_length=100)
+
+
+class ProviderOption(BaseModel):
+    id: str  # "auto" or a model id, e.g. "gemini-3.5-flash-lite"
+    label: str  # e.g. "Gemini 3.5 Flash-Lite"
+    vendor: str  # e.g. "Google Gemini", "Groq", or "" for auto
+
+
+class ProvidersResponse(BaseModel):
+    default: str
+    options: list[ProviderOption]
 
 
 class Token(BaseModel):
@@ -30,12 +43,19 @@ class Stats(BaseModel):
 
 
 class Meaning(BaseModel):
-    en: str
-    same_register: str  # the same message, re-said in the user's own mix of languages
+    """What the LLM must return (also used as its JSON schema)."""
+
+    en: str  # what the message means, in plain English
+    reply: str  # a short reply written the way the sender writes (same language mix)
+
+
+class MeaningResult(Meaning):
+    provider: str  # model that answered, e.g. "gemini-3.1-flash-lite"
+    register_kept: bool  # our language ID found the reply keeps the sender's language mix
 
 
 class AnalyzeResponse(BaseModel):
     tokens: list[Token]
     stats: Stats
-    meaning: Meaning | None = None
+    meaning: MeaningResult | None = None
     lid_source: Literal["model", "rules"]
