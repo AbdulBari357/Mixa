@@ -1,0 +1,464 @@
+# hinglish	yaar kal ki party cancel ho gayi kya
+yaar	hi-ur
+kal	hi-ur
+ki	hi-ur
+party	en
+cancel	en
+ho	hi-ur
+gayi	hi-ur
+kya	hi-ur
+
+# hinglish	main abhi office se nikal raha hoon
+main	hi-ur
+abhi	hi-ur
+office	en
+se	hi-ur
+nikal	hi-ur
+raha	hi-ur
+hoon	hi-ur
+
+# hinglish	the main problem is ki koi reply nahi karta
+the	en
+main	en
+problem	en
+is	en
+ki	hi-ur
+koi	hi-ur
+reply	en
+nahi	hi-ur
+karta	hi-ur
+
+# hinglish	bro ye movie bohot boring thi, I slept halfway
+bro	en
+ye	hi-ur
+movie	en
+bohot	hi-ur
+boring	en
+thi	hi-ur
+I	en
+slept	en
+halfway	en
+
+# hinglish	mujhe lagta hai we should leave early
+mujhe	hi-ur
+lagta	hi-ur
+hai	hi-ur
+we	en
+should	en
+leave	en
+early	en
+
+# hinglish	assignment submit karne ki last date kab hai
+assignment	en
+submit	en
+karne	hi-ur
+ki	hi-ur
+last	en
+date	en
+kab	hi-ur
+hai	hi-ur
+
+# hinglish	mummy bol rahi thi ke tum late aaoge
+mummy	en
+bol	hi-ur
+rahi	hi-ur
+thi	hi-ur
+ke	hi-ur
+tum	hi-ur
+late	en
+aaoge	hi-ur
+
+# hinglish	he is so annoying yaar, har baar same joke
+he	en
+is	en
+so	en
+annoying	en
+yaar	hi-ur
+har	hi-ur
+baar	hi-ur
+same	en
+joke	en
+
+# hinglish	chal theek hai, see you tomorrow
+chal	hi-ur
+theek	hi-ur
+hai	hi-ur
+see	en
+you	en
+tomorrow	en
+
+# hinglish	Rahul ne bola tha ki meeting 5 baje hai
+Rahul	ne
+ne	hi-ur
+bola	hi-ur
+tha	hi-ur
+ki	hi-ur
+meeting	en
+baje	hi-ur
+hai	hi-ur
+
+# hinglish	please mujhe notes bhej do jab free ho
+please	en
+mujhe	hi-ur
+notes	en
+bhej	hi-ur
+do	hi-ur
+jab	hi-ur
+free	en
+ho	hi-ur
+
+# hinglish	to phir kya plan hai weekend ka
+to	hi-ur
+phir	hi-ur
+kya	hi-ur
+plan	en
+hai	hi-ur
+weekend	en
+ka	hi-ur
+
+# roman-urdu	aap kaisay hain, bohat din ho gaye
+aap	hi-ur
+kaisay	hi-ur
+hain	hi-ur
+bohat	hi-ur
+din	hi-ur
+ho	hi-ur
+gaye	hi-ur
+
+# roman-urdu	mera phone kharab ho gaya hai, repair karwana hai
+mera	hi-ur
+phone	en
+kharab	hi-ur
+ho	hi-ur
+gaya	hi-ur
+hai	hi-ur
+repair	en
+karwana	hi-ur
+hai	hi-ur
+
+# roman-urdu	kal Karachi ja raha hoon, wapas Monday ko aaunga
+kal	hi-ur
+Karachi	ne
+ja	hi-ur
+raha	hi-ur
+hoon	hi-ur
+wapas	hi-ur
+Monday	en
+ko	hi-ur
+aaunga	hi-ur
+
+# roman-urdu	yar mujhe samajh nahi aa raha ke kya karoon
+yar	hi-ur
+mujhe	hi-ur
+samajh	hi-ur
+nahi	hi-ur
+aa	hi-ur
+raha	hi-ur
+ke	hi-ur
+kya	hi-ur
+karoon	hi-ur
+
+# roman-urdu	shukriya, aap ka kaam bohat acha tha
+shukriya	hi-ur
+aap	hi-ur
+ka	hi-ur
+kaam	hi-ur
+bohat	hi-ur
+acha	hi-ur
+tha	hi-ur
+
+# roman-urdu	main ne email kar di hai, check kar lein
+main	hi-ur
+ne	hi-ur
+email	en
+kar	hi-ur
+di	hi-ur
+hai	hi-ur
+check	en
+kar	hi-ur
+lein	hi-ur
+
+# roman-urdu	exam ki tayyari kaisi chal rahi hai
+exam	en
+ki	hi-ur
+tayyari	hi-ur
+kaisi	hi-ur
+chal	hi-ur
+rahi	hi-ur
+hai	hi-ur
+
+# roman-urdu	bas thora sa wait karo, main aa raha hoon
+bas	hi-ur
+thora	hi-ur
+sa	hi-ur
+wait	en
+karo	hi-ur
+main	hi-ur
+aa	hi-ur
+raha	hi-ur
+hoon	hi-ur
+
+# arabizi	ana fel mall, enta wein?
+ana	ar
+fel	ar
+mall	en
+enta	ar
+wein	ar
+
+# arabizi	yalla habibi, the movie starts ba3d 10 minutes
+yalla	ar
+habibi	ar
+the	en
+movie	en
+starts	en
+ba3d	ar
+minutes	en
+
+# arabizi	shu el plan today?
+shu	ar
+el	ar
+plan	en
+today	en
+
+# arabizi	wallah I forgot, sorry 7abibti
+wallah	ar
+I	en
+forgot	en
+sorry	en
+7abibti	ar
+
+# arabizi	3ndi exam bukra, need to study
+3ndi	ar
+exam	en
+bukra	ar
+need	en
+to	en
+study	en
+
+# arabizi	khalas, ana jay now
+khalas	ar
+ana	ar
+jay	ar
+now	en
+
+# arabizi	el traffic kteer 3al Sheikh Zayed road
+el	ar
+traffic	en
+kteer	ar
+3al	ar
+Sheikh	ne
+Zayed	ne
+road	ne
+
+# arabizi	inshallah we'll meet next week
+inshallah	ar
+we'll	en
+meet	en
+next	en
+week	en
+
+# arabizi	mashallah your Arabic is getting better
+mashallah	ar
+your	en
+Arabic	en
+is	en
+getting	en
+better	en
+
+# arabizi	la2 ma 3ndi wa2t today, maybe bukra
+la2	ar
+ma	ar
+3ndi	ar
+wa2t	ar
+today	en
+maybe	en
+bukra	ar
+
+# arabizi	keefak? kil shi tamam?
+keefak	ar
+kil	ar
+shi	ar
+tamam	ar
+
+# arabizi	ya3ni I don't know, shoof enta
+ya3ni	ar
+I	en
+don't	en
+know	en
+shoof	ar
+enta	ar
+
+# three-way	bhai ana coming ba3d shwaya, traffic bohot hai
+bhai	hi-ur
+ana	ar
+coming	en
+ba3d	ar
+shwaya	ar
+traffic	en
+bohot	hi-ur
+hai	hi-ur
+
+# three-way	khalas yaar, kal baat karte hain inshallah
+khalas	ar
+yaar	hi-ur
+kal	hi-ur
+baat	hi-ur
+karte	hi-ur
+hain	hi-ur
+inshallah	ar
+
+# three-way	habibi tension mat lo, sab theek ho jayega
+habibi	ar
+tension	en
+mat	hi-ur
+lo	hi-ur
+sab	hi-ur
+theek	hi-ur
+ho	hi-ur
+jayega	hi-ur
+
+# three-way	yalla chalo, we're getting late yaar
+yalla	ar
+chalo	hi-ur
+we're	en
+getting	en
+late	en
+yaar	hi-ur
+
+# three-way	wallah bohot mushkil exam tha
+wallah	ar
+bohot	hi-ur
+mushkil	hi-ur
+exam	en
+tha	hi-ur
+
+# three-way	ana bhi aa raha hoon, wait karo
+ana	ar
+bhi	hi-ur
+aa	hi-ur
+raha	hi-ur
+hoon	hi-ur
+wait	en
+karo	hi-ur
+
+# three-way	shukran bhai, you saved me today
+shukran	ar
+bhai	hi-ur
+you	en
+saved	en
+me	en
+today	en
+
+# three-way	mafi mushkil, kal milte hain
+mafi	ar
+mushkil	ar
+kal	hi-ur
+milte	hi-ur
+hain	hi-ur
+
+# gulf	shlonak? wayed ta3ban today
+shlonak	ar
+wayed	ar
+ta3ban	ar
+today	en
+
+# gulf	ana abi a7jiz table for dinner
+ana	ar
+abi	ar
+a7jiz	ar
+table	en
+for	en
+dinner	en
+
+# gulf	el jaw 7ar wayed, 6ab3an I'm staying home
+el	ar
+jaw	ar
+7ar	ar
+wayed	ar
+6ab3an	ar
+I'm	en
+staying	en
+home	en
+
+# gulf	zain, meeting 3la 9 o'clock
+zain	ar
+meeting	en
+3la	ar
+o'clock	en
+
+# gulf	ya 7ayyak habibi, 9ar lana zaman
+ya	ar
+7ayyak	ar
+habibi	ar
+9ar	ar
+lana	ar
+zaman	ar
+
+# gulf	chan zain if you told me before
+chan	ar
+zain	ar
+if	en
+you	en
+told	en
+me	en
+before	en
+
+# gulf	bro 5alni a3ref when you reach Dubai Mall
+bro	en
+5alni	ar
+a3ref	ar
+when	en
+you	en
+reach	en
+Dubai	ne
+Mall	ne
+
+# gulf	yalla bhai, 3'ada at Al Mallah
+yalla	ar
+bhai	hi-ur
+3'ada	ar
+at	en
+Al	ne
+Mallah	ne
+
+# english	Can you send me the report before the meeting
+Can	en
+you	en
+send	en
+me	en
+the	en
+report	en
+before	en
+the	en
+meeting	en
+
+# english	The main gate is closed so use the side door
+The	en
+main	en
+gate	en
+is	en
+closed	en
+so	en
+use	en
+the	en
+side	en
+door	en
+
+# english	He said he will be late today
+He	en
+said	en
+he	en
+will	en
+be	en
+late	en
+today	en
+
+# english	I have a bus to catch at six
+I	en
+have	en
+a	en
+bus	en
+to	en
+catch	en
+at	en
+six	en

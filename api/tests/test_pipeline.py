@@ -1,6 +1,7 @@
 import pytest
 
 from mixa.pipeline import analyze, compute_stats
+from mixa.pipeline.lid import model_available
 from mixa.pipeline.soundkey import sound_key
 from mixa.pipeline.tokenize import tokenize
 
@@ -34,6 +35,13 @@ def test_tokenizer_keeps_arabizi_devanagari_and_apostrophes_whole():
     assert words == ["ana", "coming", "ba3d", ",", "I'll", "call", "7abibi", "भाई", "😂😂"]
 
 
+def test_emoji_variation_selectors_stay_with_the_emoji():
+    tokens = tokenize("love it ❤️ yaar 👍🏽")
+    assert [(t.text, t.kind) for t in tokens] == [
+        ("love", "word"), ("it", "word"), ("❤️", "symbol"), ("yaar", "word"), ("👍🏽", "symbol")
+    ]  # fmt: skip
+
+
 def test_tokenizer_offsets_point_back_into_the_text():
     text = "kal meeting hai?"
     assert all(text[t.start : t.end] == t.text for t in tokenize(text))
@@ -54,6 +62,20 @@ def test_code_mixing_index():
 def test_plain_english_is_not_tagged_as_hindi(english):
     langs = {t.lang for t in analyze(english, with_meaning=False).tokens}
     assert langs <= {"en", "other"}
+
+
+@pytest.mark.skipif(not model_available(), reason="no trained model in models/")
+@pytest.mark.xfail(
+    reason="Known weakness (lid_eval.md): Arabic words inside Hindi context, e.g. 'ana' "
+    "here, are tagged hi-ur. Next step: more three-way training data.",
+    strict=False,
+)
+def test_trained_model_labels_a_three_way_uae_message():
+    res = analyze("bhai ana coming ba3d shwaya, traffic bohot hai", with_meaning=False)
+    assert res.lid_source == "model"
+    assert [t.lang for t in res.tokens if t.lang != "other"] == [
+        "hi-ur", "ar", "en", "ar", "ar", "en", "hi-ur", "hi-ur"
+    ]  # fmt: skip
 
 
 def test_analyze_labels_a_mixed_sentence_without_meaning():

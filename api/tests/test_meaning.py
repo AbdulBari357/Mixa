@@ -104,6 +104,17 @@ def test_english_replies_with_ambiguous_words_do_not_count_as_kept(reply, sender
     assert not meaning.keeps_register(sender_langs, reply)
 
 
+@pytest.mark.parametrize("reply", ["Sure, shukran for the help", "ok bhai", "haan yaar"])
+def test_one_clearly_mixed_word_is_enough(reply):
+    assert meaning.keeps_register({"hi-ur", "ar", "en"}, reply)
+
+
+def test_rules_mode_still_checks_the_register(monkeypatch):
+    monkeypatch.setattr("mixa.pipeline.lid._load_model", lambda: None)
+    assert meaning.keeps_register({"hi-ur", "en"}, "haan yaar")
+    assert not meaning.keeps_register({"hi-ur", "en"}, "Yes, it was cancelled.")
+
+
 def test_reply_must_keep_a_language_the_sender_actually_used():
     assert not meaning.keeps_register({"ar", "en"}, "haan yaar")  # Hindi reply to Arabizi
     assert meaning.keeps_register({"ar", "en"}, "tamam habibi, see you")

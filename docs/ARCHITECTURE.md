@@ -13,7 +13,7 @@ and structure, and we keep the user's own words and register.
 Web app (Next.js)  ──POST /analyze──▶  FastAPI service
                                          │
                                          ├─ 1. Tokenizer          keeps 7abibi / ba3d / भाई whole
-                                         ├─ 2. Language ID  ◀──── models/lid.joblib (CRF, trained in api/ml/)
+                                         ├─ 2. Language ID  ◀──── models/lid.joblib (CRF, trained in api/ml/) + script rule
                                          ├─ 3. Sound keys   ◀──┐
                                          ├─ 4. Script views ◀──┴─ variant lexicon (Dakshina + Arabizi rules)
                                          └─ 5. Meaning      ◀──── LLM chain: Gemini 3.5 Flash-Lite
@@ -24,7 +24,7 @@ Web app (Next.js)  ──POST /analyze──▶  FastAPI service
 | Stage | Module | Approach | How we measure it |
 |---|---|---|---|
 | 1. Tokenize | `pipeline/tokenize.py` | Unicode-category scanner; digits, matras and in-word apostrophes stay inside words | Unit tests |
-| 2. Language ID | `pipeline/lid.py`, `pipeline/features.py` | CRF over char n-grams, prefixes/suffixes, script, Arabizi digits, sound key, neighbouring words. Rules fallback = our baseline | Per-label P/R/F1 on LinCE dev, model vs rules |
+| 2. Language ID | `pipeline/lid.py`, `pipeline/features.py` | CRF over char n-grams, prefixes/suffixes, Arabizi digits, sound key and neighbouring words, trained on the mix chosen on validation data (LinCE + Haifa Arabizi + COMI-LINGUA + our silver Arabizi set; HingLID was tried and not selected). Hybrid at serving time: CRF for Latin script, exact script rule for Devanagari / Arabic / Urdu script. Rules-only mode = our baseline | `ml/train_lid.py` → [`lid_eval.md`](../api/ml/results/lid_eval.md): per-label F1 on 4 held-out test sets (incl. our hand-labelled UAE set) + ablation |
 | 3. Sound keys | `pipeline/soundkey.py` | Consonant skeleton + final-vowel class; Arabizi digits mapped; `h` dropped except word-initially | Grouping precision/recall on Dakshina romanization lexicons |
 | 4. Script views | `pipeline/scripts.py` | Dakshina lookup (Hindi/Urdu), rule table (Arabizi -> Arabic), LLM fallback | Spot checks |
 | 5. Meaning | `pipeline/meaning.py`, `pipeline/llm.py` | LLM gets the text plus our word tags and returns JSON `{en, reply}`. Our own LID checks the reply kept the sender's language; if not (or it echoed / was empty) the next model in the chain is tried | `ml/eval_meaning.py` → [`meaning_eval.md`](../api/ml/results/meaning_eval.md): 5 models × 13 messages |

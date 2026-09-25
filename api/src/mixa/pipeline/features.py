@@ -4,9 +4,17 @@ Shared by training (ml/train_lid.py) and inference (pipeline/lid.py) so the two
 can never drift apart. Change features here, then retrain.
 """
 
+import re
+
 from mixa.pipeline.soundkey import sound_key
 
 _ARABIZI_DIGITS = set("235679")
+_LONG_RUNS = re.compile(r"(.)\1{2,}")
+
+
+def normalise(word: str) -> str:
+    """Lowercase and cut letter runs to 2 (bahuttttt -> bahutt), as the Haifa corpus does."""
+    return _LONG_RUNS.sub(r"\1\1", word.lower())
 
 
 def script_of(word: str) -> str:
@@ -22,7 +30,7 @@ def script_of(word: str) -> str:
 
 
 def _word_features(word: str, prefix: str) -> dict[str, object]:
-    low = word.lower()
+    low = normalise(word)
     return {
         f"{prefix}lower": low,
         f"{prefix}suf3": low[-3:],
@@ -33,7 +41,7 @@ def _word_features(word: str, prefix: str) -> dict[str, object]:
 
 def token_features(words: list[str], i: int) -> dict[str, object]:
     word = words[i]
-    low = word.lower()
+    low = normalise(word)
     padded = f"<{low}>"
     has_letter = any(c.isalpha() for c in low)
     feats: dict[str, object] = {

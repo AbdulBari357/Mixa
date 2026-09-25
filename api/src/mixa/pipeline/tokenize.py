@@ -21,8 +21,13 @@ class RawToken:
     kind: Literal["word", "number", "symbol"]
 
 
+def _starts_word(ch: str) -> bool:
+    return unicodedata.category(ch)[0] in "LN"
+
+
 def _is_word_char(ch: str) -> bool:
-    # Letters, digits and combining marks (matras, harakat) all belong to a word.
+    # Inside a word, combining marks (matras, harakat) belong to it too. A mark can't START
+    # a word: after an emoji, U+FE0F (variation selector) is part of the symbol, not a word.
     return unicodedata.category(ch)[0] in "LNM"
 
 
@@ -30,7 +35,7 @@ def _continues_word(text: str, j: int) -> bool:
     c = text[j]
     if _is_word_char(c) or c in _JOINERS:
         return True
-    # In-word apostrophe: I'll, ba'd
+    # In-word apostrophe: I'll, ba'd, Gulf 3'ada (غدا)
     return c in _APOSTROPHES and j + 1 < len(text) and _is_word_char(text[j + 1])
 
 
@@ -43,14 +48,14 @@ def tokenize(text: str) -> list[RawToken]:
             i += 1
             continue
         j = i + 1
-        if _is_word_char(ch):
+        if _starts_word(ch):
             while j < n and _continues_word(text, j):
                 j += 1
             word = text[i:j]
             kind = "number" if word.isdigit() else "word"
         else:
-            # Group runs of punctuation / emoji ("?!", "😂😂") into one token.
-            while j < n and not text[j].isspace() and not _is_word_char(text[j]):
+            # Group runs of punctuation / emoji ("?!", "😂😂", "❤️") into one token.
+            while j < n and not text[j].isspace() and not _starts_word(text[j]):
                 j += 1
             kind = "symbol"
         tokens.append(RawToken(text[i:j], i, j, kind))

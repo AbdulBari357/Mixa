@@ -75,13 +75,26 @@ def build_user_prompt(text: str, tags: list[tuple[str, str]]) -> str:
     )
 
 
+# Words that are everyday English AND everyday romanized Hindi/Urdu or Arabic. One of these
+# alone never proves a mixed reply: in "I'll be at the main gate" the model gives "main"
+# hi-ur at p≈0.87, about as confident as it is about a real mixed word like "shukran" (0.89).
+_ENGLISH_HOMOGRAPHS = {"main", "to", "he", "me", "the", "hi", "ho", "par", "mat", "bas", "is",
+                       "a", "ya", "na", "so", "do", "far", "man", "sir", "may", "kar", "bat"}  # fmt: skip
+_CONFIDENT = 0.8
+
+
 def keeps_register(message_langs: set[str], reply: str) -> bool:
     """True if the reply keeps a non-English language the sender used (checked by our LID)."""
     wanted = message_langs & _NON_ENGLISH
     if not wanted:
         return True  # an English-only message may get an English reply
-    labels, _ = identify(tokenize(reply))
-    return any(lang in wanted for lang, _ in labels)
+    tokens = tokenize(reply)
+    labels, source = identify(tokens)
+    hits = [(tok.text.lower(), conf) for tok, (lang, conf) in zip(tokens, labels) if lang in wanted]
+    if source == "rules":  # rule confidences aren't probabilities
+        return bool(hits)
+    clear = [w for w, conf in hits if conf >= _CONFIDENT and w not in _ENGLISH_HOMOGRAPHS]
+    return bool(clear) or len(hits) >= 2
 
 
 def normalise(s: str) -> str:

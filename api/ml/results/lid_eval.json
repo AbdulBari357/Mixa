@@ -1,0 +1,652 @@
+{
+  "selected": "+ Haifa + silver + COMI-LINGUA",
+  "final_sentences": 15385,
+  "train_sizes": {
+    "comi": 7678,
+    "haifa": 2374,
+    "hinglid": 3000,
+    "lince": 4738,
+    "silver": 595
+  },
+  "c1": 0.2,
+  "c2": 0.1,
+  "tuning": [
+    {
+      "c1": 0.05,
+      "c2": 0.01,
+      "validation": {
+        "comi": 0.9182,
+        "haifa": 0.8069,
+        "lince": 0.8584,
+        "mean": 0.8612
+      }
+    },
+    {
+      "c1": 0.05,
+      "c2": 0.1,
+      "validation": {
+        "comi": 0.9228,
+        "haifa": 0.82,
+        "lince": 0.8695,
+        "mean": 0.8708
+      }
+    },
+    {
+      "c1": 0.2,
+      "c2": 0.01,
+      "validation": {
+        "comi": 0.9219,
+        "haifa": 0.8087,
+        "lince": 0.8704,
+        "mean": 0.867
+      }
+    },
+    {
+      "c1": 0.2,
+      "c2": 0.1,
+      "validation": {
+        "comi": 0.9245,
+        "haifa": 0.8221,
+        "lince": 0.8721,
+        "mean": 0.8729
+      }
+    }
+  ],
+  "candidates": {
+    "LinCE only": {
+      "sources": [
+        "lince"
+      ],
+      "sentences": 4264,
+      "validation": {
+        "comi": 0.8721,
+        "haifa": 0.6014,
+        "lince": 0.9276,
+        "mean": 0.8004
+      },
+      "test_macro_f1": {
+        "LinCE Hinglish dev": 0.9177,
+        "Haifa Arabizi test": 0.5834,
+        "COMI-LINGUA romanized test": 0.8639,
+        "UAE hand-labelled": 0.6072
+      }
+    },
+    "+ Haifa Arabizi": {
+      "sources": [
+        "lince",
+        "haifa"
+      ],
+      "sentences": 6400,
+      "validation": {
+        "comi": 0.8754,
+        "haifa": 0.8344,
+        "lince": 0.9186,
+        "mean": 0.8761
+      },
+      "test_macro_f1": {
+        "LinCE Hinglish dev": 0.9144,
+        "Haifa Arabizi test": 0.8022,
+        "COMI-LINGUA romanized test": 0.8664,
+        "UAE hand-labelled": 0.8519
+      }
+    },
+    "+ Haifa + our silver": {
+      "sources": [
+        "lince",
+        "haifa",
+        "silver"
+      ],
+      "sentences": 6995,
+      "validation": {
+        "comi": 0.8761,
+        "haifa": 0.8351,
+        "lince": 0.9214,
+        "mean": 0.8775
+      },
+      "test_macro_f1": {
+        "LinCE Hinglish dev": 0.9103,
+        "Haifa Arabizi test": 0.8126,
+        "COMI-LINGUA romanized test": 0.8682,
+        "UAE hand-labelled": 0.9146
+      }
+    },
+    "+ Haifa + silver + COMI-LINGUA": {
+      "sources": [
+        "lince",
+        "haifa",
+        "silver",
+        "comi"
+      ],
+      "sentences": 13905,
+      "validation": {
+        "comi": 0.9304,
+        "haifa": 0.8147,
+        "lince": 0.8932,
+        "mean": 0.8794
+      },
+      "test_macro_f1": {
+        "LinCE Hinglish dev": 0.8791,
+        "Haifa Arabizi test": 0.8105,
+        "COMI-LINGUA romanized test": 0.9235,
+        "UAE hand-labelled": 0.8891
+      }
+    },
+    "All sources (+ HingLID)": {
+      "sources": [
+        "lince",
+        "haifa",
+        "silver",
+        "comi",
+        "hinglid"
+      ],
+      "sentences": 16905,
+      "validation": {
+        "comi": 0.9245,
+        "haifa": 0.8221,
+        "lince": 0.8721,
+        "mean": 0.8729
+      },
+      "test_macro_f1": {
+        "LinCE Hinglish dev": 0.8666,
+        "Haifa Arabizi test": 0.8088,
+        "COMI-LINGUA romanized test": 0.921,
+        "UAE hand-labelled": 0.895
+      }
+    }
+  },
+  "train_seconds": 86.2,
+  "model_mb": 2.2,
+  "tests": {
+    "LinCE Hinglish dev": {
+      "rules": {
+        "tokens": 13422,
+        "accuracy": 0.7396,
+        "macro_f1": 0.4394,
+        "f1": {
+          "en": 0.8376,
+          "hi-ur": 0.4807,
+          "ar": 0.0,
+          "ne": 0.0
+        },
+        "support": {
+          "en": 8901,
+          "hi-ur": 3281,
+          "ar": 0,
+          "ne": 877
+        },
+        "confusion": [
+          [
+            8879,
+            3,
+            9,
+            0,
+            10
+          ],
+          [
+            2240,
+            1040,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            863,
+            1,
+            13,
+            0,
+            0
+          ],
+          [
+            317,
+            2,
+            36,
+            0,
+            8
+          ]
+        ]
+      },
+      "crf": {
+        "tokens": 13422,
+        "accuracy": 0.9433,
+        "macro_f1": 0.8762,
+        "f1": {
+          "en": 0.9737,
+          "hi-ur": 0.9408,
+          "ar": 0.0,
+          "ne": 0.7143
+        },
+        "support": {
+          "en": 8901,
+          "hi-ur": 3281,
+          "ar": 0,
+          "ne": 877
+        },
+        "confusion": [
+          [
+            8764,
+            52,
+            2,
+            33,
+            50
+          ],
+          [
+            127,
+            3105,
+            1,
+            28,
+            20
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            159,
+            136,
+            6,
+            535,
+            41
+          ],
+          [
+            51,
+            27,
+            3,
+            25,
+            257
+          ]
+        ]
+      }
+    },
+    "Haifa Arabizi test": {
+      "rules": {
+        "tokens": 2125,
+        "accuracy": 0.7689,
+        "macro_f1": 0.5002,
+        "f1": {
+          "en": 0.8447,
+          "hi-ur": 0.0,
+          "ar": 0.656,
+          "ne": 0.0
+        },
+        "support": {
+          "en": 1289,
+          "hi-ur": 0,
+          "ar": 701,
+          "ne": 97
+        },
+        "confusion": [
+          [
+            1286,
+            2,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            346,
+            7,
+            348,
+            0,
+            0
+          ],
+          [
+            96,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            28,
+            0,
+            10,
+            0,
+            0
+          ]
+        ]
+      },
+      "crf": {
+        "tokens": 2125,
+        "accuracy": 0.9205,
+        "macro_f1": 0.8029,
+        "f1": {
+          "en": 0.9619,
+          "hi-ur": 0.0,
+          "ar": 0.931,
+          "ne": 0.5157
+        },
+        "support": {
+          "en": 1289,
+          "hi-ur": 0,
+          "ar": 701,
+          "ne": 97
+        },
+        "confusion": [
+          [
+            1250,
+            2,
+            16,
+            11,
+            10
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            22,
+            9,
+            654,
+            10,
+            6
+          ],
+          [
+            27,
+            7,
+            19,
+            41,
+            3
+          ],
+          [
+            11,
+            1,
+            15,
+            0,
+            11
+          ]
+        ]
+      }
+    },
+    "COMI-LINGUA romanized test": {
+      "rules": {
+        "tokens": 16664,
+        "accuracy": 0.477,
+        "macro_f1": 0.5125,
+        "f1": {
+          "en": 0.4835,
+          "hi-ur": 0.5415,
+          "ar": 0.0,
+          "ne": 0.0
+        },
+        "support": {
+          "en": 4031,
+          "hi-ur": 10508,
+          "ar": 0,
+          "ne": 0
+        },
+        "confusion": [
+          [
+            4030,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            6603,
+            3905,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2005,
+            8,
+            99,
+            0,
+            13
+          ]
+        ]
+      },
+      "crf": {
+        "tokens": 16664,
+        "accuracy": 0.9214,
+        "macro_f1": 0.9238,
+        "f1": {
+          "en": 0.8877,
+          "hi-ur": 0.9599,
+          "ar": 0.0,
+          "ne": 0.0
+        },
+        "support": {
+          "en": 4031,
+          "hi-ur": 10508,
+          "ar": 0,
+          "ne": 0
+        },
+        "confusion": [
+          [
+            3577,
+            251,
+            2,
+            87,
+            114
+          ],
+          [
+            229,
+            10092,
+            8,
+            95,
+            84
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            222,
+            176,
+            0,
+            42,
+            1685
+          ]
+        ]
+      }
+    },
+    "UAE hand-labelled": {
+      "rules": {
+        "tokens": 361,
+        "accuracy": 0.7978,
+        "macro_f1": 0.6107,
+        "f1": {
+          "en": 0.7944,
+          "hi-ur": 0.8151,
+          "ar": 0.8333,
+          "ne": 0.0
+        },
+        "support": {
+          "en": 141,
+          "hi-ur": 141,
+          "ar": 70,
+          "ne": 9
+        },
+        "confusion": [
+          [
+            141,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            44,
+            97,
+            0,
+            0,
+            0
+          ],
+          [
+            20,
+            0,
+            50,
+            0,
+            0
+          ],
+          [
+            9,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "crf": {
+        "tokens": 361,
+        "accuracy": 0.9446,
+        "macro_f1": 0.8772,
+        "f1": {
+          "en": 0.9749,
+          "hi-ur": 0.9524,
+          "ar": 0.9147,
+          "ne": 0.6667
+        },
+        "support": {
+          "en": 141,
+          "hi-ur": 141,
+          "ar": 70,
+          "ne": 9
+        },
+        "confusion": [
+          [
+            136,
+            4,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            140,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            7,
+            59,
+            2,
+            2
+          ],
+          [
+            1,
+            2,
+            0,
+            6,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    }
+  },
+  "uae_groups": {
+    "rules": {
+      "hinglish": 0.8085,
+      "roman-urdu": 0.697,
+      "arabizi": 0.7727,
+      "three-way": 0.8269,
+      "gulf": 0.7755,
+      "english": 1.0
+    },
+    "crf": {
+      "hinglish": 0.9574,
+      "roman-urdu": 0.9848,
+      "arabizi": 0.9394,
+      "three-way": 0.8846,
+      "gulf": 0.9388,
+      "english": 0.9412
+    }
+  },
+  "uae_crf_errors": [
+    "the main problem is ki koi reply nahi karta: main (en\u2192hi-ur)",
+    "mummy bol rahi thi ke tum late aaoge: mummy (en\u2192hi-ur)",
+    "Rahul ne bola tha ki meeting baje hai: Rahul (ne\u2192hi-ur)",
+    "to phir kya plan hai weekend ka: to (hi-ur\u2192en)",
+    "kal Karachi ja raha hoon wapas Monday ko aaunga: Karachi (ne\u2192hi-ur)",
+    "ana fel mall enta wein: mall (en\u2192ne)",
+    "3ndi exam bukra need to study: 3ndi (ar\u2192other)",
+    "el traffic kteer 3al Sheikh Zayed road: road (ne\u2192en)",
+    "mashallah your Arabic is getting better: mashallah (ar\u2192hi-ur)",
+    "bhai ana coming ba3d shwaya traffic bohot hai: ana (ar\u2192hi-ur)",
+    "wallah bohot mushkil exam tha: wallah (ar\u2192hi-ur)",
+    "ana bhi aa raha hoon wait karo: ana (ar\u2192hi-ur)",
+    "shukran bhai you saved me today: shukran (ar\u2192hi-ur)",
+    "mafi mushkil kal milte hain: mafi (ar\u2192hi-ur), mushkil (ar\u2192hi-ur)",
+    "chan zain if you told me before: chan (ar\u2192ne), zain (ar\u2192ne)",
+    "yalla bhai 3'ada at Al Mallah: 3'ada (ar\u2192other)",
+    "The main gate is closed so use the side door: main (en\u2192hi-ur)",
+    "I have a bus to catch at six: to (en\u2192hi-ur)"
+  ],
+  "uae_group_sizes": {
+    "hinglish": 94,
+    "roman-urdu": 66,
+    "arabizi": 66,
+    "three-way": 52,
+    "gulf": 49,
+    "english": 34
+  },
+  "uae_accuracy_ci": [
+    0.9218,
+    0.9655
+  ],
+  "prereg_note": "0.862 / 0.814 / 0.922 / 0.861 macro-F1 on LinCE / Haifa / COMI / UAE"
+}

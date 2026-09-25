@@ -85,7 +85,12 @@ def _rule_label(tok: RawToken) -> tuple[str, float]:
 
 
 def identify(tokens: list[RawToken]) -> tuple[list[tuple[str, float]], str]:
-    """Label each token. Returns (labels with confidence, source) with source "model" or "rules"."""
+    """Label each token. Returns (labels with confidence, source) with source "model" or "rules".
+
+    Hybrid: the CRF labels Latin-script words (where context matters: "main" in "main gate"
+    vs "main aa raha hoon"). Devanagari and Arabic/Urdu-script words keep the script rule,
+    which is exact there and covers Urdu script, which no training set has.
+    """
     crf = _load_model()
     if crf is None:
         return [_rule_label(t) for t in tokens], "rules"
@@ -93,9 +98,24 @@ def identify(tokens: list[RawToken]) -> tuple[list[tuple[str, float]], str]:
     labels: list[tuple[str, float]] = [("other", 1.0)] * len(tokens)
     word_idx = [i for i, t in enumerate(tokens) if t.kind == "word"]
     if word_idx:
-        words = [tokens[i].text for i in word_idx]
-        marginals = crf.predict_marginals_single(sentence_features(words))
-        for i, probs in zip(word_idx, marginals):
-            best = max(probs, key=probs.get)
-            labels[i] = (best, round(probs[best], 3))
+        word_labels = label_words(crf, [tokens[i].text for i in word_idx])
+        for i, label in zip(word_idx, word_labels):
+            labels[i] = label
     return labels, "model"
+
+
+def label_words(crf, words: list[str]) -> list[tuple[str, float]]:
+    """The model's labels for a sentence's word tokens, with confidences.
+
+    The single decoding path shared by serving (identify) and evaluation (ml/train_lid.py):
+    per-word most likely label from the CRF's marginals, and the exact script rule for
+    Devanagari / Arabic-script words.
+    """
+    out = []
+    for word, probs in zip(words, crf.predict_marginals_single(sentence_features(words))):
+        if script_of(word) in ("deva", "arab"):
+            out.append(_rule_label(RawToken(word, 0, len(word), "word")))
+        else:
+            best = max(probs, key=probs.get)
+            out.append((best, round(probs[best], 3)))
+    return out
