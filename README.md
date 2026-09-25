@@ -61,4 +61,5 @@ docs/    architecture and decisions
 
 ## Team
 
+- Umair Raizan ([@umairai21](https://github.com/umairai21))
 - Abdul Bari Mohammed ([@AbdulBari357](https://github.com/AbdulBari357))
